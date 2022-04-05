@@ -1,4 +1,5 @@
 import React from 'react';
+import 'answerButton.css';
 
 class AnswerButton extends React.Component{
     constructor(props){
@@ -8,7 +9,7 @@ class AnswerButton extends React.Component{
     }
     render(){
         return (
-            <button>
+            <button className='answer-button'>
                 {this.answer}
             </button>
         )
