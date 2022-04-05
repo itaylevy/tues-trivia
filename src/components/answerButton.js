@@ -1,5 +1,5 @@
 import React from 'react';
-import 'answerButton.css';
+import './AnswerButton.css'
 
 class AnswerButton extends React.Component{
     constructor(props){
