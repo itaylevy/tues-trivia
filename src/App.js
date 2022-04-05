@@ -1,8 +1,8 @@
-import Component from "react"
+import React from "react"
 import "./App.css"
 import QuestionScree from './components/questionScreen'
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <div className="App">
