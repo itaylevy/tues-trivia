@@ -7,14 +7,18 @@ import AnswerButtom from './answerButton';
 class QuestionScreen extends React.Component{
     constructor(props){
         super(props);
+        this.question = this.props.question;
+        this.name = this.props.name;
+        this.points = this.props.points;
+        this.answer = this.props.answer;
     }
     render(){
         return (
         <div>
-        <Question question={this.props.question}/>
-        <Player name={this.props.name} />
-        <Score points={this.props.points} />
-        <AnswerButtom isCorrect='true' answer={this.props.answer} />   
+        <Question question={this.question}/>
+        <Player name={this.name} />
+        <Score points={this.points} />
+        <AnswerButtom isCorrect='true' answer={this.answer} />   
         </div>
         )
     }
