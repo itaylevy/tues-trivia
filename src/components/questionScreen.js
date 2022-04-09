@@ -50,7 +50,6 @@ const QuestionScreen = (props) => {
                     <Question question={questions.data.results[currentQuestion].question}/>
                     <Player name={props.name} />
                     <Score points={points} />
-                    <div>Time: {timer}</div>
                     <div className='answer-section'>
                     {availableAnswers.map((answerOption, index) => (
                         <button onClick={() => handleAnswerButtonClick(answerOption)}>{answerOption}</button>
