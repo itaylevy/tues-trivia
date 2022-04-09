@@ -10,45 +10,42 @@ const QuestionScreen = (props) => {
     const [questions, setQuestions] = useState();
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [points, setPoints] = useState(0);
-    const [maxPoints, addPoints] = useState(0);
-    const [timer, setTimer] = useState(30);
+    const [timer, setTimer] = useState(5);
+    const [won, didWon] = useState(true);
     useEffect(() => {
         async function fetchData() {
             const questionsResponse = await axios.get('https://opentdb.com/api.php?amount=100')
-            setQuestions(questionsResponse);
+            setQuestions(questionsResponse.data.results);
         }
         fetchData();
-
     }, []);
-    
     useEffect(() => {
         const clock = () =>{
             const newTime = timer -1 
             setTimeout (()=> setTimer(newTime), 1000)
-            if (!timer){
+            if (!timer)
+            {
                 const nextQuestion = currentQuestion + 1;
                 setCurrentQuestion(nextQuestion);
-                setTimer(30)
+                didWon(false)
+                setTimer(5)
             }
         }
         clock();
     }, [timer, currentQuestion]);
    
     const handleAnswerButtonClick = (answerOption) => {
-        const pointsDict = {
-            'easy': 1,
-            'medium': 5,
-            'hard': 10
-        }
-        const newMaxPoints = maxPoints + pointsDict[questions.data.results[currentQuestion].difficulty]
-        addPoints(newMaxPoints);
-        if (answerOption === questions.data.results[currentQuestion].correct_answer){
-            const newPoints = points + pointsDict[questions.data.results[currentQuestion].difficulty];
+        if (answerOption === questions[currentQuestion].correct_answer){
+            const newPoints = points + 1
             setPoints(newPoints);
+        }
+        else
+        {
+            didWon(false)
         }
         const nextQuestion = currentQuestion + 1;
         setCurrentQuestion(nextQuestion);
-        setTimer(30)
+        setTimer(5)
     };
     const decodeHtml = (html) => {
         var txt = document.createElement("textarea");
@@ -56,16 +53,16 @@ const QuestionScreen = (props) => {
         return txt.value;
     };
         if (questions !== undefined){
-            if (currentQuestion < questions.data.results.length) {
+            if (currentQuestion < questions.length) {
                 let availableAnswers = undefined
-                availableAnswers = questions.data.results[currentQuestion].incorrect_answers 
-                if (!availableAnswers.includes(questions.data.results[currentQuestion].correct_answer)){
-                    availableAnswers.push(questions.data.results[currentQuestion].correct_answer)
+                availableAnswers = questions[currentQuestion].incorrect_answers 
+                if (!availableAnswers.includes(questions[currentQuestion].correct_answer)){
+                    availableAnswers.push(questions[currentQuestion].correct_answer)
                 }        
                 return (
                     <div>
-                    <div>Question {currentQuestion+1}</div>
-                    <Question question={decodeHtml(questions.data.results[currentQuestion].question)}/>
+                    <div>Question {currentQuestion+1}/{questions.length}</div>
+                    <Question question={decodeHtml(questions[currentQuestion].question)}/>
                     <Player name={props.name} />
                     <Score points={points} />
                     <div>Time: {timer}</div>
@@ -75,17 +72,15 @@ const QuestionScreen = (props) => {
                     ))}
                 </div>
                     </div>
-                    )
-                
-
+                    )  
             } else {
-                if (points === maxPoints){
+                if (won){
                     return <div>You won!</div>
                 }
                 else{
                     return <div>
                         <div>You didn't succeed this time</div>
-                        <div>You achived {points} points out of {maxPoints}</div>
+                        <div>You achived {points} points out of {questions.length}</div>
                         </div>
 
                 }
