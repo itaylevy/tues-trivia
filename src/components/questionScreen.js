@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {React, useEffect, useState} from 'react';
 import Player from './player';
 import Score from './score';
 import Question from './question';
