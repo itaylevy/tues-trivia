@@ -1,12 +1,12 @@
 import React from 'react';
+// const _ = require('lodash'); 
 
-class Question extends React.Component {
-    render(){
+const Question = (props) => {
         return (
             <div>
-                {this.props.question}
+                {props.question}
             </div>
         )
-    }
+    
 }
 export default Question;
