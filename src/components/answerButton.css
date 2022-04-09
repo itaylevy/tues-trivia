@@ -1,5 +1,16 @@
 .answer{
     box-shadow: 0px 5px 10px 0px rgba(0,255,255,0.7);            
+    width: 100%;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #252d4a;
+    border-radius: 15px;
+    display: center;
+    padding: 5px;
+    justify-content: flex-start;
+    align-items: center;
+    border: 2px solid #399cff;
+    cursor: pointer;
 }
 .answer:hover{
     transform: translateY(-5px);
