@@ -8,10 +8,8 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <QuestionScree 
-          question='Hi' 
           name='Itay'
-           points='1'
-            answer='Lion'/>
+           />
         </header>
       </div>
     )
