@@ -20,9 +20,6 @@ const QuestionScreen = (props) => {
         fetchData();
 
     }, []);
-    useEffect(() => {
-        clock();
-    }, [timer]);
     const clock = () =>{
         setTimeout (()=> setTimer(timer-1), 1000)
         if (timer == 0){
@@ -31,6 +28,10 @@ const QuestionScreen = (props) => {
             setTimer(30)
         }
     }
+    useEffect(() => {
+        clock();
+    }, [timer, clock]);
+   
     const handleAnswerButtonClick = (answerOption) => {
         const pointsDict = {
             'easy': 1,
