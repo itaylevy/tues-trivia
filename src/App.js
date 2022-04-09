@@ -1,9 +1,7 @@
-import React from "react"
 import "./App.css"
 import QuestionScree from './components/questionScreen'
 
-class App extends React.Component {
-  render() {
+const App = () => {
     return (
       <div className="App">
         <header className="App-header">
@@ -13,7 +11,6 @@ class App extends React.Component {
         </header>
       </div>
     )
-  }
 }
 
 export default App
