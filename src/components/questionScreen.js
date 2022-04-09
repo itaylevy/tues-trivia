@@ -25,7 +25,7 @@ const QuestionScreen = (props) => {
         const clock = () =>{
             const newTime = timer -1 
             setTimeout (()=> setTimer(newTime), 1000)
-            if (timer == 0){
+            if (!timer){
                 const nextQuestion = currentQuestion + 1;
                 setCurrentQuestion(nextQuestion);
                 setTimer(30)
