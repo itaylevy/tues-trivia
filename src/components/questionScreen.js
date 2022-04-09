@@ -2,57 +2,73 @@ import {React, useEffect, useState} from 'react';
 import Player from './player';
 import Score from './score';
 import Question from './question';
-// import AnswerButton from './answerButton';
 import axios from 'axios'
-
+import './answerButton.css';
 
 
 const QuestionScreen = (props) => {
     const [questions, setQuestions] = useState();
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [points, setPoints] = useState(0);
-    // const [timer, setTimer] = useState(60);
+    const [maxPoints, addPoints] = useState(0);
+    const [timer, setTimer] = useState(30);
     useEffect(() => {
         async function fetchData() {
             const questionsResponse = await axios.get('https://opentdb.com/api.php?amount=100')
-            console.log("on start");
             setQuestions(questionsResponse);
         }
         fetchData();
+
     }, []);
-    
+    useEffect(() => {
+        clock();
+    }, [timer]);
+    const clock = () =>{
+        setTimeout (()=> setTimer(timer-1), 1000)
+        if (timer == 0){
+            const nextQuestion = currentQuestion + 1;
+            setCurrentQuestion(nextQuestion);
+            setTimer(30)
+        }
+    }
     const handleAnswerButtonClick = (answerOption) => {
+        const pointsDict = {
+            'easy': 1,
+            'medium': 5,
+            'hard': 10
+        }
+        const newMaxPoints = maxPoints + pointsDict[questions.data.results[currentQuestion].difficulty]
+        addPoints(newMaxPoints);
         if (answerOption === questions.data.results[currentQuestion].correct_answer){
-            const pointsDict = {
-                'easy': 1,
-                'medium': 5,
-                'hard': 10
-            }
             const newPoints = points + pointsDict[questions.data.results[currentQuestion].difficulty];
             setPoints(newPoints);
         }
         const nextQuestion = currentQuestion + 1;
         setCurrentQuestion(nextQuestion);
-        console.log(questions.data.results[currentQuestion])
+        setTimer(30)
+    };
+    const decodeHtml = (html) => {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
     };
         if (questions !== undefined){
-            console.log('inside if');
             if (currentQuestion < questions.data.results.length) {
                 let availableAnswers = undefined
-                if (questions.data.results[currentQuestion].incorrect_answers !== undefined){
-                    availableAnswers = questions.data.results[currentQuestion].incorrect_answers 
+                availableAnswers = questions.data.results[currentQuestion].incorrect_answers 
+                if (!availableAnswers.includes(questions.data.results[currentQuestion].correct_answer)){
                     availableAnswers.push(questions.data.results[currentQuestion].correct_answer)
-                }
-    
+                }        
                 return (
                     <div>
-                        <div>Question {currentQuestion+1}</div>
-                    <Question question={questions.data.results[currentQuestion].question}/>
+                    <div>Question {currentQuestion+1}</div>
+                    <Question question={decodeHtml(questions.data.results[currentQuestion].question)}/>
                     <Player name={props.name} />
                     <Score points={points} />
+                    <div>Time: {timer}</div>
                     <div className='answer-section'>
                     {availableAnswers.map((answerOption, index) => (
-                        <button onClick={() => handleAnswerButtonClick(answerOption)}>{answerOption}</button>
+                        <button className = 'answer' onClick={() => handleAnswerButtonClick(answerOption)}>{decodeHtml(answerOption)}</button>
                     ))}
                 </div>
                     </div>
@@ -60,12 +76,21 @@ const QuestionScreen = (props) => {
                 
 
             } else {
-                return <div>{points}</div>
+                if (points === maxPoints){
+                    return <div>You won!</div>
+                }
+                else{
+                    return <div>
+                        <div>You didn't succeed this time</div>
+                        <div>You achived {points} points out of {maxPoints}</div>
+                        </div>
+
+                }
             }
         }
         else{
                 return (
-                    <div>Loading..</div>
+                    <div>Loading Tues-Trivia..</div>
                 )
             
             
