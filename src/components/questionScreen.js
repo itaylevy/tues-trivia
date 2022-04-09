@@ -11,16 +11,16 @@ const QuestionScreen = (props) => {
     const [questions, setQuestions] = useState();
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [points, setPoints] = useState(0);
+    // const [timer, setTimer] = useState(60);
     useEffect(() => {
         async function fetchData() {
             const questionsResponse = await axios.get('https://opentdb.com/api.php?amount=100')
             console.log("on start");
             setQuestions(questionsResponse);
-            console.log(questions)          
         }
         fetchData();
-        
     }, []);
+    
     const handleAnswerButtonClick = (answerOption) => {
         if (answerOption === questions.data.results[currentQuestion].correct_answer){
             const pointsDict = {
@@ -50,6 +50,7 @@ const QuestionScreen = (props) => {
                     <Question question={questions.data.results[currentQuestion].question}/>
                     <Player name={props.name} />
                     <Score points={points} />
+                    <div>Time: {timer}</div>
                     <div className='answer-section'>
                     {availableAnswers.map((answerOption, index) => (
                         <button onClick={() => handleAnswerButtonClick(answerOption)}>{answerOption}</button>
