@@ -5,8 +5,7 @@ const Player = (props) => {
             <div>
                 Player: {props.name}
             </div>
-        )
-
+        );
 }
 
 export default Player;

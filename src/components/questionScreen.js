@@ -75,23 +75,29 @@ const QuestionScreen = (props) => {
                     )  
             } else {
                 if (won){
-                    return <div>You won!</div>
+                    return (
+                    <div>
+                        You won!
+                    </div>
+                    )
                 }
                 else{
-                    return <div>
+                    return (
+                    <div>
                         <div>You didn't succeed this time</div>
                         <div>You achived {points} points out of {questions.length}</div>
                         </div>
-
+                    );
                 }
             }
         }
         else{
                 return (
-                    <div>Loading Tues-Trivia..</div>
-                )
-            
-            
+                    <div>
+                        <div>Welcome to Tues-Trivia</div>
+                        <div>Loading Game</div>
+                    </div>
+                );
         }
 }
 export default QuestionScreen;

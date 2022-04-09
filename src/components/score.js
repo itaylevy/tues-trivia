@@ -5,7 +5,6 @@ const Score = (props)=> {
             <div>
                 Points: {props.points}
             </div>
-        )
-
+        );
 }
 export default Score;
