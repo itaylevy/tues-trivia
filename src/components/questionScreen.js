@@ -32,7 +32,7 @@ const QuestionScreen = (props) => {
             }
         }
         clock();
-    }, [timer]);
+    }, [timer, currentQuestion]);
    
     const handleAnswerButtonClick = (answerOption) => {
         const pointsDict = {
