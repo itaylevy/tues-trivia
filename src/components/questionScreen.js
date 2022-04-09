@@ -20,17 +20,19 @@ const QuestionScreen = (props) => {
         fetchData();
 
     }, []);
-    const clock = () =>{
-        setTimeout (()=> setTimer(timer-1), 1000)
-        if (timer == 0){
-            const nextQuestion = currentQuestion + 1;
-            setCurrentQuestion(nextQuestion);
-            setTimer(30)
-        }
-    }
+    
     useEffect(() => {
+        const clock = () =>{
+            const newTime = timer -1 
+            setTimeout (()=> setTimer(newTime), 1000)
+            if (timer == 0){
+                const nextQuestion = currentQuestion + 1;
+                setCurrentQuestion(nextQuestion);
+                setTimer(30)
+            }
+        }
         clock();
-    }, [timer, clock]);
+    }, [timer]);
    
     const handleAnswerButtonClick = (answerOption) => {
         const pointsDict = {
