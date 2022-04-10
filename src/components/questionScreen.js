@@ -10,7 +10,7 @@ const QuestionScreen = (props) => {
     const [questions, setQuestions] = useState();
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [points, setPoints] = useState(0);
-    const [timer, setTimer] = useState(5);
+    const [timer, setTimer] = useState(20);
     const [won, didWon] = useState(true);
     useEffect(() => {
         async function fetchData() {
@@ -88,7 +88,7 @@ const QuestionScreen = (props) => {
                 else{
                     return (
                     <div>
-                        <div>You didn't succeed this time</div>
+                        <div>{props.name}, You didn't succeed this time</div>
                         <div>You achived {points} points out of {questions.length}</div>
                         </div>
                     );
@@ -98,7 +98,7 @@ const QuestionScreen = (props) => {
         else{
                 return (
                     <div>
-                        <div>Welcome to Tues-Trivia</div>
+                        <div>{props.name}, Welcome to Tues-Trivia</div>
                         <div>Loading Game</div>
                     </div>
                 );
