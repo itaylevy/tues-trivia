@@ -3,18 +3,18 @@ import Player from './player';
 import Score from './score';
 import Question from './question';
 import axios from 'axios'
-import './answerButton.css';
+import './questionScreen.css';
 
-
+const QUESTIONS_URL = 'https://opentdb.com/api.php?amount=100'
 const QuestionScreen = (props) => {
     const [questions, setQuestions] = useState();
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [points, setPoints] = useState(0);
     const [timer, setTimer] = useState(20);
-    const [won, didWon] = useState(true);
+    const [userWon, didWon] = useState(true);
     useEffect(() => {
         async function fetchData() {
-            const questionsResponse = await axios.get('https://opentdb.com/api.php?amount=100')
+            const questionsResponse = await axios.get(QUESTIONS_URL)
             setQuestions(questionsResponse.data.results);
         }
         fetchData();
@@ -63,33 +63,33 @@ const QuestionScreen = (props) => {
                 }        
                 return (
                     <div>
-                    <div className='question-section'>
-                    <div className='question-count'>Question {currentQuestion+1}/{questions.length}</div>
-                    <Question className='question-text' question={decodeHtml(questions[currentQuestion].question)}/>
-                    </div>
-                    <Player name={props.name} />
-                    <Score points={points} />
-                    <div className='timer-text'>Time: {timer}</div>
-                    <div className='answer-section'>
-                    {availableAnswers.map((answerOption, index) => (
-                        <button className = 'answer' onClick={() => handleAnswerButtonClick(answerOption)}>{decodeHtml(answerOption)}</button>
-                    ))}
-                </div>
+                        <div className='question-section'>
+                            <div className='question-count'>Question {currentQuestion+1}/{questions.length}</div>
+                                <Question className='question-text' question={decodeHtml(questions[currentQuestion].question)}/>
+                        </div>
+                        <Player name={props.name} />
+                        <Score points={points} />
+                        <div className='timer-text'>Time: {timer}</div>
+                        <div className='answer-section'>
+                        {availableAnswers.map((answerOption, index) => (
+                            <button className = 'answer' onClick={() => handleAnswerButtonClick(answerOption)}>{decodeHtml(answerOption)}</button>
+                        ))}
+                        </div>
                     </div>
                     )  
             } else {
-                if (won){
+                if (userWon){
                     return (
-                    <div>
-                        You won!
-                    </div>
+                        <div>
+                            {props.name}, You won!
+                        </div>
                     )
                 }
                 else{
                     return (
-                    <div>
-                        <div>{props.name}, You didn't succeed this time</div>
-                        <div>You achived {points} points out of {questions.length}</div>
+                        <div>
+                            <div>{props.name}, You didn't succeed this time</div>
+                            <div>You achived {points} points out of {questions.length}</div>
                         </div>
                     );
                 }
