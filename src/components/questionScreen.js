@@ -31,7 +31,7 @@ const QuestionScreen = (props) => {
     }, [timer, currentQuestion]);
 
     useEffect(() => {
-        const timerId = setInterval (()=> {
+        setInterval (()=> {
             setTimer(currTime => currTime -1);
         }, 1000)
     }, []);
