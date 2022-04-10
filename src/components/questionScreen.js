@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Player from './player';
 import Score from './score';
 import Question from './question';
@@ -19,20 +19,22 @@ const QuestionScreen = (props) => {
         }
         fetchData();
     }, []);
+    
     useEffect(() => {
-        const clock = () =>{
-            const newTime = timer -1 
-            setTimeout (()=> setTimer(newTime), 1000)
-            if (!timer)
+            if (timer <= 0)
             {
                 const nextQuestion = currentQuestion + 1;
                 setCurrentQuestion(nextQuestion);
                 didWon(false)
                 setTimer(5)
-            }
         }
-        clock();
     }, [timer, currentQuestion]);
+
+    useEffect(() => {
+        const timerId = setInterval (()=> {
+            setTimer(currTime => currTime -1);
+        }, 1000)
+    }, []);
    
     const handleAnswerButtonClick = (answerOption) => {
         if (answerOption === questions[currentQuestion].correct_answer){
@@ -61,11 +63,13 @@ const QuestionScreen = (props) => {
                 }        
                 return (
                     <div>
-                    <div>Question {currentQuestion+1}/{questions.length}</div>
-                    <Question question={decodeHtml(questions[currentQuestion].question)}/>
+                    <div className='question-section'>
+                    <div className='question-count'>Question {currentQuestion+1}/{questions.length}</div>
+                    <Question className='question-text' question={decodeHtml(questions[currentQuestion].question)}/>
+                    </div>
                     <Player name={props.name} />
                     <Score points={points} />
-                    <div>Time: {timer}</div>
+                    <div className='timer-text'>Time: {timer}</div>
                     <div className='answer-section'>
                     {availableAnswers.map((answerOption, index) => (
                         <button className = 'answer' onClick={() => handleAnswerButtonClick(answerOption)}>{decodeHtml(answerOption)}</button>
