@@ -1,5 +1,4 @@
-import { useState } from "react";
-import QuestionScreen from "./questionScreen";
+import React, { useState } from "react";
 
 const WelcomeScreen = ({onSubmit}) => {
     const [name, setName] = useState("");
